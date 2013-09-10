@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+
+	<appender name="mailAppender" class="org.apache.log4j.net.SMTPAppender">
+		<param name="BufferSize" value="50" />
+		<param name="SMTPHost" value="smtp.mail.yahoo.com" />
+		<param name="SMTPPort" value="587" />
+		<param name="SMTPUsername" value="datacollectorandemailtrigger" />
+		<param name="SMTPPassword" value="Email01*service" />
+		<param name="From" value="datacollectorandemailtrigger@yahoo.in" />
+		<param name="To" value="vinod.kukkal@valuelabs.net" />
+		<param name="Subject" value="ERROR ALERT FROM SNAPFISH SYSTEM EMAIL SERVICE" />
+		
+		<param name="Threshold" value="ERROR" />
+		
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="[%d{ISO8601}]%n%n%-5p%n%n%c%n%n%m%n%n" />
+		</layout>
+	</appender>
+	
+    <appender name="systememail_debug" class="org.apache.log4j.RollingFileAppender">
+        <param name="maxFileSize" value="10MB" />
+        <param name="maxBackupIndex" value="10" />
+         <param name="immediateFlush" value="true"/>
+        <param name="File" value="${catalina.base}/logs/systememail-debug.log" />
+        
+        <param name="Threshold" value="DEBUG" />
+        
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d{ISO8601} [%t] %-5p %c{1} %x - %m%n" />
+        </layout>
+    </appender>	
+
+  
+    <logger name="com.snapfish">
+        <level value="debug" />
+		<appender-ref ref="systememail_debug" />
+	</logger>
+
+	<root>
+		<priority value="warn" />
+		<appender-ref ref="mailAppender" />
+	</root>
+</log4j:configuration>
